@@ -9,7 +9,7 @@
 		Charly Lersteau
 
 	Date:
-		2011-08-12
+		2012-03-09
 
 	Extends:
 		<MailPart>
@@ -578,7 +578,7 @@ class MailPart
 			$keys   = array_keys( $this->_header );
 			foreach ( $keys as $key )
 			{
-				$field = mb_convert_case( $key, MB_CASE_TITLE, 'us-ascii' );
+				$field = MailEncode::titleCase( $key );
 				$header[] = $field.': '.$this->header( $key );
 			}
 			return implode( Mail::CRLF, $header );
@@ -758,19 +758,46 @@ class MailEncode
 	// Encode a header value.
 	public static function header( $value, $charset, $encoding )
 	{
-		// Check if it is necessary to encode
-		if ( !mb_check_encoding( $value, 'us-ascii' ) )
+		if ( extension_loaded( 'mbstring' ) )
 		{
-			// mb_internal_encoding() should be set to same encoding as $charset.
-			$internal = mb_internal_encoding();
-			mb_internal_encoding( $charset );
+			// Check if it is necessary to encode (ascii or not).
+			if ( !mb_check_encoding( $value, 'us-ascii' ) )
+			{
+				// mb_internal_encoding() should be set to same encoding as $charset.
+				$internal = mb_internal_encoding();
+				mb_internal_encoding( $charset );
 
-			$value = mb_encode_mimeheader( $value, $charset, $encoding );
+				$value = mb_encode_mimeheader( $value, $charset, $encoding );
 
-			// Restore previous internal encoding.
-			mb_internal_encoding( $internal );
+				// Restore previous internal encoding.
+				mb_internal_encoding( $internal );
+			}
+		}
+		else
+		{
+			// Check if it is necessary to encode (ascii or not).
+			if ( !preg_match( '/^[\x20-\x7f]*$/D', $value ) )
+			{
+				// If mbstring is not activated,
+				// We ignore $encoding parameter and use base64.
+				$value = '=?'.$charset.'?B?'.base64_encode( $value ).'?=';
+			}
 		}
 		return $value;
+	}
+
+	// Title capitalization.
+	public static function titleCase( $value )
+	{
+		if ( is_callable( 'mb_convert_case' ) )
+		{
+			return mb_convert_case( $value, MB_CASE_TITLE, 'us-ascii' );
+		}
+		else
+		{
+			// If mbstring is not activated, just use ucwords.
+			return ucwords( $value );
+		}
 	}
 
 	// Encode a body.
