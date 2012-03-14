@@ -9,7 +9,7 @@
 		Charly Lersteau
 
 	Date:
-		2012-03-09
+		2012-03-14
 
 	Extends:
 		<MailPart>
@@ -412,7 +412,9 @@ class Mail extends MailPart
 	public function __toString()
 	{
 		$this->build();
-		return (string)$this->_mail;
+		// PHP < 5.2.0 __toString() compatibility.
+		// See http://www.php.net/manual/en/language.oop5.magic.php#object.tostring
+		return $this->_mail->__toString();
 	}
 
 	// Set a header property (implode if array)
@@ -593,7 +595,8 @@ class MailPart
 		}
 		else
 		{
-			$name = strtolower( $name );
+			// A field name MUST be composed of printable US-ASCII characters.
+			$name = MailEncode::fieldName( $name );
 
 			// Set value
 			if ( isset( $value ) )
@@ -606,7 +609,7 @@ class MailPart
 						$value .= ";\r\n\t{$n}=\"{$v}\"";
 					}
 				}
-				$this->_header[ $name ] = $value;
+				$this->_header[ $name ] = MailEncode::fieldValue( $value );
 			}
 			// Return encoded header
 			else
@@ -742,7 +745,9 @@ class MailMultipart extends MailPart
 
 		foreach ( $this->_part as $part )
 		{
-			$content .= "--{$boundary}\n{$part}\n";
+			// PHP < 5.2.0 __toString() compatibility.
+			// See http://www.php.net/manual/en/language.oop5.magic.php#object.tostring
+			$content .= "--{$boundary}\n{$part->__toString()}\n";
 		}
 		$content .= "--{$boundary}--";
 
@@ -784,6 +789,34 @@ class MailEncode
 			}
 		}
 		return $value;
+	}
+
+	// Translate a field name (lowercase).
+	public static function fieldName( $name )
+	{
+		// RFC 5322 2.2 Header Fields
+		// A field name MUST be composed of printable US-ASCII characters
+		// (i.e., characters that have values between 33 and 126, inclusive),
+		// except colon.
+		$name = preg_replace( '/[^[:graph:]\:]/', '?', $name );
+		$name = strtr( $name, ':', '?' );
+		return strtolower( $name );
+	}
+
+	// Prevents from mail header injection in (multiline) field values.
+	// Adds a whitespace before each new line.
+	public static function fieldValue( $value )
+	{
+		// RFC 5322 2.2.3 Long Header Fields
+		// Each header field is logically a single line of characters comprising
+		// the field name, the colon, and the field body.  For convenience
+		// however, and to deal with the 998/78 character limitations per line,
+		// the field body portion of a header field can be split into a
+		// multiple-line representation; this is called "folding".  The general
+		// rule is that wherever this specification allows for folding white
+		// space (not simply WSP characters), a CRLF may be inserted before any
+		// WSP.
+		return preg_replace( '/([\r\n])(\S)/', "$1\t$2", $value );
 	}
 
 	// Title capitalization.
