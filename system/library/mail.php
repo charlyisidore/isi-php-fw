@@ -798,7 +798,7 @@ class MailEncode
 		// A field name MUST be composed of printable US-ASCII characters
 		// (i.e., characters that have values between 33 and 126, inclusive),
 		// except colon.
-		$name = preg_replace( '/[^[:graph:]\:]/', '?', $name );
+		$name = preg_replace( '/[^[:graph:]]/', '?', $name );
 		$name = strtr( $name, ':', '?' );
 		return strtolower( $name );
 	}
