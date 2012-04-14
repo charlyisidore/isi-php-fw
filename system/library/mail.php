@@ -1,4 +1,4 @@
-<?php if ( !defined( 'SECURITY_CONST' ) ) die( 'Access Denied' );
+<?php defined( 'SECURITY_CONST' ) or exit( 'Access Denied' );
 
 /**
 	Class: Mail
@@ -9,7 +9,7 @@
 		Charly Lersteau
 
 	Date:
-		2012-03-14
+		2012-04-12
 
 	Extends:
 		<MailPart>
