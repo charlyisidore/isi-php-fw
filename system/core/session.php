@@ -9,7 +9,7 @@
 		Charly LERSTEAU
 
 	Date:
-		2012-04-13
+		2013-04-01
 */
 abstract class Session
 {
@@ -102,17 +102,24 @@ abstract class Session
 	{
 		if ( isset( self::$_data ) )
 		{
-			self::$_data->__destroy();
+			self::$_data->clear();
 			self::$_data = null;
 		}
 	}
 
 	// Interface
-	abstract public function __destroy();
+	abstract public function clear();
 	abstract public function __toString();
 }
 
-// Default handler
+/**
+	Class: PHPSession
+
+	Default PHP session handler.
+
+	Extends:
+		<Session>
+*/
 class PHPSession extends Session
 {
 	public function __construct()
@@ -133,6 +140,11 @@ class PHPSession extends Session
 		$_SESSION[ $name ] = $value;
 	}
 
+	public function __isset( $name )
+	{
+		return isset( $_SESSION[ $name ] );
+	}
+
 	public function __unset( $name )
 	{
 		unset( $_SESSION[ $name ] );
@@ -144,7 +156,7 @@ class PHPSession extends Session
 		return is_string( $encode ) ? $encode : '';
 	}
 
-	public function __destroy()
+	public function clear()
 	{
 		// Unset all of the session variables.
 		$_SESSION = array();

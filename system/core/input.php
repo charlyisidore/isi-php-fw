@@ -9,7 +9,7 @@
 		Charly Lersteau
 
 	Date:
-		2012-04-12
+		2013-04-06
 */
 class Input
 {
@@ -65,7 +65,7 @@ class Input
 	/**
 		Method: files
 
-		FILES data.
+		FILES data. For multiple files, rearrange the array to be cleaner.
 
 		Parameters:
 			$key - (optional) (string) The key name.
@@ -76,7 +76,23 @@ class Input
 	*/
 	static public function files( $key = '', $default = null )
 	{
-		return self::_get( $_FILES, strtok( $key, self::$_separator ), $default );
+		$files = self::_get( $_FILES, strtok( $key, self::$_separator ), $default );
+
+		// Rearrange array to be cleaner.
+		if ( isset( $files['name'][0] ) )
+		{
+			$r = array();
+			foreach( $files as $i => $u )
+			{
+				foreach( $u as $j => $v )
+				{
+					isset( $r[$j] ) or $r[$j] = array();
+					$r[$j][$i] = $v;    
+				}    
+			}
+			return $r;
+		}
+		return $files;
 	}
 
 	/**

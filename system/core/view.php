@@ -9,7 +9,7 @@
 		Charly Lersteau
 
 	Date:
-		2012-04-13
+		2013-04-06
 
 	Example:
 		>	$view = View::factory( 'article.php' );
@@ -193,6 +193,38 @@ abstract class View
 	public function __unset( $name )
 	{
 		$this->remove( $name );
+	}
+}
+
+/**
+	Class: PHPView
+
+	A minimal PHP template engine.
+
+	Extends:
+		<View>
+
+	Example:
+		>	<div class="article">
+		>		<h2><?php echo $title; ?></h2>
+		>		<p class="author">Date: <?php echo $date; ?></p>
+		>		<p class="date">Author: <?php echo $author; ?></p>
+		>		<div class="content"><?php echo $content; ?></div>
+		>	</div>
+*/
+class PHPView extends View
+{
+	/**
+		Method: __toString
+	*/
+	public function __toString()
+	{
+		extract( $this->get() );
+		ob_start();
+		include $this->file();
+		$data = ob_get_contents();
+		ob_end_clean();
+		return (string)$data;
 	}
 }
 

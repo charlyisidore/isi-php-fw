@@ -9,7 +9,14 @@
 		Charly Lersteau
 
 	Date:
-		2012-04-12
+		2013-04-06
+
+	Example:
+		>	// http://www.site.com/base/index.php/to/my/page
+		>	echo Url::page( '/to/my/page' );
+		>
+		>	// http://www.site.com/base/to/style.css
+		>	echo Url::file( '/to/style.css' );
 */
 class Url
 {
@@ -185,20 +192,20 @@ class Url
 	}
 
 	/**
-		Method: get
+		Method: current
 
 		The URI which was given in order to access this page.
 
 		Returns:
 			(string)
 	*/
-	static public function get()
+	static public function current()
 	{
 		return $_SERVER[ 'REQUEST_URI' ];
 	}
 
 	/**
-		Method: build
+		Method: page
 
 		Build an URL with a virtual path ('/foo/index.php/virtual/path').
 		Removes trailing and double '/'.
@@ -210,10 +217,26 @@ class Url
 		Returns:
 			(string)
 	*/
-	static public function build( $path, $rewrite = null )
+	static public function page( $path, $rewrite = null )
 	{
 		isset( $rewrite ) or $rewrite = self::$_rewrite;
 		return Url::base( !$rewrite ).'/'.preg_replace( '`/+`', '/', trim( $path, '/' ) );
+	}
+
+	/**
+		Method: file
+
+		Build an URL to a real file.
+
+		Parameters:
+			$path - (string) The path.
+
+		Returns:
+			(string)
+	*/
+	static public function file( $path )
+	{
+		return Url::base().'/'.ltrim( $path, '/' );
 	}
 
 	/**
