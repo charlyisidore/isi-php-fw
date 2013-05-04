@@ -14,7 +14,9 @@ class IndexController
 
 	public function __404( $path )
 	{
-		echo "{$path} not found.";
+		$view = View::factory( '404.php' );
+		$view->path = $path;
+		echo $view;
 	}
 }
 
