@@ -5,12 +5,14 @@
 */
 class IndexController
 {
-	public function __invoke()
+	public function __invoke( $who = 'world' )
 	{
-		echo 'Hello, world !';
+		$view = View::factory( 'index.php' );
+		$view->who = $who;
+		echo $view;
 	}
 
-	public function notfound( $path )
+	public function __404( $path )
 	{
 		echo "{$path} not found.";
 	}
