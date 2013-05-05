@@ -62,12 +62,11 @@ class CSS
 
 		Parameters:
 			$content - (string) The CSS file content.
-			$minify - (bool) If true, try to compress the stylesheet.
 
 		Returns:
 			(string) A compiled CSS stylesheet string.
 	*/
-	static public function tidy( $content, $minify = false )
+	static public function tidy( $content )
 	{
 		// Parse the stylesheet and remove comments
 		$css = self::decode( $content );
