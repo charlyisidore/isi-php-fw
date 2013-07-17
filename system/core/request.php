@@ -115,6 +115,11 @@ class Request
 			}
 		}
 
+		if ( !is_callable( $callback ) )
+		{
+			return null;
+		}
+
 		$result = call_user_func_array( $callback, $this->_parameters );
 
 		array_pop( self::$_stack );
@@ -122,14 +127,24 @@ class Request
 	}
 
 	/**
-		Method: __toString
+		Method: toString
 
 		Do the request once and cache it.
 	*/
-	public function __toString()
+	public function toString()
 	{
 		isset( $this->_response ) or $this->_response = $this->__invoke();
-		return (string)$this->_response;
+		return is_callable( array( $this->_response, 'toString' ) )
+			? $this->_response->toString()
+			: (string)$this->_response;
+	}
+
+	/**
+		Method: __toString
+	*/
+	public function __toString()
+	{
+		return $this->toString();
 	}
 
 	/**

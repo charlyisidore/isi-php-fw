@@ -31,7 +31,7 @@
 */
 abstract class View
 {
-	static protected $_base = '';  // Base directory
+	static protected $_directory = ''; // Base directory
 
 	protected $_file;                 // File to load
 	protected $_parameters = array(); // Assigned parameters
@@ -49,9 +49,9 @@ abstract class View
 	*/
 	static public function factory( $file )
 	{
-		if ( strpos( $file, self::base() ) !== 0 )
+		if ( strpos( $file, self::directory() ) !== 0 )
 		{
-			$file = self::base().DIRECTORY_SEPARATOR.$file;
+			$file = self::directory().DIRECTORY_SEPARATOR.$file;
 		}
 
 		$extension = strtolower( pathinfo( $file, PATHINFO_EXTENSION ) );
@@ -142,27 +142,38 @@ abstract class View
 	}
 
 	/**
-		Method: __toString
+		Method: toString
 
 		Render the view.
 
 		Returns:
 			(string) The rendered content.
 	*/
-	abstract public function __toString();
+	abstract public function toString();
 
 	/**
-		Method: base
+		Method: __toString
+
+		Please use toString() because Exceptions cannot be thrown from
+		__toString().
+	*/
+	public function __toString()
+	{
+		return $this->toString();
+	}
+
+	/**
+		Method: directory
 
 		Set the view container directory.
 
 		Parameters:
-			$base - (string) The directory.
+			$directory - (string) The directory.
 	*/
-	static public function base( $base = null )
+	static public function directory( $directory = null )
 	{
-		!isset( $base ) or self::$_base = $base;
-		return self::$_base;
+		!isset( $directory ) or self::$_directory = $directory;
+		return self::$_directory;
 	}
 
 	// Hidden constructor.
@@ -215,9 +226,9 @@ abstract class View
 class PHPView extends View
 {
 	/**
-		Method: __toString
+		Method: toString
 	*/
-	public function __toString()
+	public function toString()
 	{
 		extract( $this->get() );
 		ob_start();

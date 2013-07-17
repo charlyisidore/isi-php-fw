@@ -264,7 +264,10 @@ class CSS
 				{
 					foreach ( self::$_prefix[$key] as $prefix )
 					{
-						$css['-'.$prefix.'-'.$key] = $c;
+						if ( !isset( $css['-'.$prefix.'-'.$key] ) )
+						{
+							$css['-'.$prefix.'-'.$key] = $c;
+						}
 					}
 				}
 			}

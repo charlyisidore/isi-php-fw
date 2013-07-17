@@ -314,6 +314,12 @@ class JSONUser
 	protected static $_file = null;
 	protected $_data;
 
+	// Set database file
+	public static function initialize( $file )
+	{
+		self::$_file = $file;
+	}
+
 	// Constructor
 	public function __construct()
 	{

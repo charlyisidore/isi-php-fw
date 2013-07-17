@@ -14,7 +14,7 @@ defined( 'E_USER_DEPRECATED' )   or define( 'E_USER_DEPRECATED',  16384 );
 		Charly Lersteau
 
 	Date:
-		2012-04-12
+		2013-07-17
 */
 class Error
 {
@@ -135,8 +135,24 @@ class Error
 	*/
 	static public function register( $callback = null )
 	{
-		!isset( $callback ) or self::$_register[] = $callback;
+		if ( isset( $callback ) and is_callable( $callback ) and !in_array( $callback, self::$_register ) )
+		{
+			self::$_register[] = $callback;
+		}
 		return self::$_register;
+	}
+
+	/**
+		Method: unregister
+
+		Remove an error event handler.
+
+		Parameters:
+			$callback - (callback) A function handler (argument: Error instance).
+	*/
+	static public function unregister( $callback = null )
+	{
+		self::$_register = array_diff( self::$_register, array( $callback ) );
 	}
 
 	/**

@@ -12,6 +12,13 @@ Route::factory( '/:who', array( 'IndexController', '__invoke' ) )
 Route::factory( 404, array( 'IndexController', '__404' ) );
 
 /*
+	Error handler
+*/
+
+//Error::initialize();
+//Error::register( 'error_handler_function' );
+
+/*
 	Session
 */
 
@@ -22,3 +29,4 @@ Route::factory( 404, array( 'IndexController', '__404' ) );
 */
 
 //User::initialize();
+

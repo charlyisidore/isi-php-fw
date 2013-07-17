@@ -1,8 +1,6 @@
 <?php
 
-define( 'APP_PATH', realpath( 'application' ) );
+require_once 'system/launcher.php';
 
-require_once 'system/index.php';
-
-Core::run( 'public', 'default' );
+Launcher::run( 'application', 'default' );
 
