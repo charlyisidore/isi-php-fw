@@ -134,9 +134,20 @@ class Request
 	public function toString()
 	{
 		isset( $this->_response ) or $this->_response = $this->__invoke();
-		return is_callable( array( $this->_response, 'toString' ) )
-			? $this->_response->toString()
-			: (string)$this->_response;
+
+		if ( is_callable( array( $this->_response, 'toString' ) ) )
+		{
+			return $this->_response->toString();
+		}
+		else if ( is_string( $this->_response ) or is_callable( array( $this->_response, '__toString' ) ) )
+		{
+			return (string)$this->_response;
+		}
+		else if ( isset( $this->_response ) )
+		{
+			return json_encode( $this->_response );
+		}
+		return '';
 	}
 
 	/**
