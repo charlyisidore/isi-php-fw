@@ -9,7 +9,7 @@
 		Charly Lersteau
 
 	Date:
-		2013-04-06
+		2013-07-19
 */
 class Input
 {
@@ -82,9 +82,9 @@ class Input
 		if ( isset( $files['name'][0] ) )
 		{
 			$r = array();
-			foreach( $files as $i => $u )
+			foreach ( $files as $i => $u )
 			{
-				foreach( $u as $j => $v )
+				foreach ( $u as $j => $v )
 				{
 					isset( $r[$j] ) or $r[$j] = array();
 					$r[$j][$i] = $v;    
@@ -207,7 +207,7 @@ class Input
 		{
 			$submit = array();
 			foreach(
-				new RecursiveIteratorIterator(
+				new RecursiveIteratorIterator( // PHP 5 >= 5.1.0
 					new RecursiveArrayIterator( $post ),
 					RecursiveIteratorIterator::SELF_FIRST
 				)

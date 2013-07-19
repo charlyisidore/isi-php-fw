@@ -4,6 +4,7 @@ dist :
 	tar -czf $(PROJECT)_`date --rfc-3339='date'`.tar.gz --ignore-failed-read \
 		makefile README.md COPYING \
 		index.php \
+		JSON.php \
 		system/launcher.php \
 		system/core/*.php \
 		system/library/*.php \

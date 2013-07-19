@@ -9,7 +9,7 @@
 		Charly Lersteau
 
 	Date:
-		2012-04-13
+		2013-07-19
 
 	Example:
 		>	// This function will be caught in index.php/hello/<name>
@@ -234,7 +234,7 @@ class Route
 					// If parameter has fixed types or pass by ref,
 					// method will not be correctly callable.
 					if ( $p->isPassedByReference()
-						or $p->isArray()
+						or $p->isArray() // PHP 5 >= 5.1.0
 						or self::_gettype( $p ) )
 					{
 						$valid = false;
@@ -242,7 +242,7 @@ class Route
 					}
 
 					$routeParams[ "{{$p->name}}" ] = '.+';
-					$routePath .= $p->isOptional()
+					$routePath .= $p->isOptional() // PHP 5 >= 5.0.3
 						? "(?:/{{$p->name}})?"
 						: "/{{$p->name}}";
 				}

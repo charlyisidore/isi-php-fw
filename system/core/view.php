@@ -9,7 +9,7 @@
 		Charly Lersteau
 
 	Date:
-		2013-04-06
+		2013-07-19
 
 	Example:
 		>	$view = View::factory( 'article.php' );

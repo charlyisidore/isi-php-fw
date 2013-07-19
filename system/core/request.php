@@ -9,7 +9,7 @@
 		Charly Lersteau
 
 	Date:
-		2013-04-01
+		2013-07-19
 */
 class Request
 {
@@ -145,6 +145,8 @@ class Request
 		}
 		else if ( isset( $this->_response ) )
 		{
+			// PHP 5 >= 5.2.0, PECL json >= 1.2.0
+			// but we can use JSON.php if needed
 			return json_encode( $this->_response );
 		}
 		return '';

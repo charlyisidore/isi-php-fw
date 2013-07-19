@@ -9,9 +9,6 @@ require_once 'core/request.php';
 require_once 'core/route.php';
 require_once 'core/view.php';
 
-// Provides json_encode for PHP<5.2, you can delete it otherwise
-require_once 'JSON.php';
-
 /**
 	Class: Launcher
 
@@ -21,7 +18,7 @@ require_once 'JSON.php';
 		Charly Lersteau
 
 	Date:
-		2013-07-17
+		2013-07-19
 */
 class Launcher
 {

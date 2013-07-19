@@ -9,7 +9,7 @@
 		Charly Lersteau
 
 	Date:
-		2013-07-17
+		2013-07-19
 */
 class Autoload
 {
@@ -22,6 +22,7 @@ class Autoload
 	*/
 	static public function initialize()
 	{
+		// PHP 5 >= 5.1.2
 		spl_autoload_register( array( 'Autoload', 'load' ) );
 	}
 
