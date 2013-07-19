@@ -2,7 +2,7 @@ PROJECT = isi-php-fw
 
 dist :
 	tar -czf $(PROJECT)_`date --rfc-3339='date'`.tar.gz --ignore-failed-read \
-		makefile README.md COPYING \
+		makefile README.md COPYING ChangeLog \
 		index.php \
 		JSON.php \
 		system/launcher.php \

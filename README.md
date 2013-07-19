@@ -12,6 +12,8 @@ It provides minimal stuff to route requests to function/method calls.
 The kernel is also extensible using auto-loaded PHP files.
 Take only the extensions you need and create yours !
 
+Version : _0.1.0_
+
 
 Requirements
 ------------
@@ -93,7 +95,7 @@ Optional libraries included
 
 * [Services\_JSON v1.0.3](http://pear.php.net/package/Services_JSON) : `JSON.php`
 * [Mootools Core v1.4.5](http://www.mootools.net/) : `static/js/mootools-core-1.4.5-full-nocompat-yc.js`
-* [Pure v0.2.0](http://purecss.io/) : `static/css/pure-min.css`
+* [Pure v0.2.1](http://purecss.io/) : `static/css/pure-min.css`
 
 _Services\_JSON_ provides _json\_encode_ for PHP 5 < 5.2.0.
 You can also delete it if you run with PHP 5 >= 5.2.0.
@@ -115,8 +117,8 @@ Authors
 * Charly Lersteau
 
 
-Copyright
----------
+License
+-------
 
 **isi-php-fw** is a minimalist framework in PHP5 for lightweight applications.
 
