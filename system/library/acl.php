@@ -10,6 +10,60 @@
 
 	Date:
 		2013-07-23
+
+	Example:
+		>	ACL::role( 'guest' );
+		>	ACL::role( 'member', 'guest' );
+		>	ACL::role( 'admin', 'member' );
+		>	ACL::role( 'my_user', 'member' );
+		>	
+		>	$comment = ACL::resource( 'comment' );
+		>	
+		>	$comment->action( array( 'read', 'post', 'edit' ) );
+		>	
+		>	$comment->allow( 'guest', 'read' );
+		>	$comment->allow( 'member', 'post' );
+		>	$comment->allow( 'admin', 'edit' );
+		>	
+		>	header( 'Content-Type: text/plain' );
+		>	
+		>	echo "guest:\n";
+		>	echo "- read ", $comment->isAllowed( 'guest', 'read' ) ? 'allowed' : 'denied', "\n";
+		>	echo "- post ", $comment->isAllowed( 'guest', 'post' ) ? 'allowed' : 'denied', "\n";
+		>	echo "- edit ", $comment->isAllowed( 'guest', 'edit' ) ? 'allowed' : 'denied', "\n";
+		>	
+		>	echo "member:\n";
+		>	echo "- read ", $comment->isAllowed( 'member', 'read' ) ? 'allowed' : 'denied', "\n";
+		>	echo "- post ", $comment->isAllowed( 'member', 'post' ) ? 'allowed' : 'denied', "\n";
+		>	echo "- edit ", $comment->isAllowed( 'member', 'edit' ) ? 'allowed' : 'denied', "\n";
+		>	
+		>	echo "admin:\n";
+		>	echo "- read ", $comment->isAllowed( 'admin', 'read' ) ? 'allowed' : 'denied', "\n";
+		>	echo "- post ", $comment->isAllowed( 'admin', 'post' ) ? 'allowed' : 'denied', "\n";
+		>	echo "- edit ", $comment->isAllowed( 'admin', 'edit' ) ? 'allowed' : 'denied', "\n";
+		>	
+		>	echo "my_user:\n";
+		>	echo "- read ", $comment->isAllowed( 'my_user', 'read' ) ? 'allowed' : 'denied', "\n";
+		>	echo "- post ", $comment->isAllowed( 'my_user', 'post' ) ? 'allowed' : 'denied', "\n";
+		>	echo "- edit ", $comment->isAllowed( 'my_user', 'edit' ) ? 'allowed' : 'denied', "\n";
+		>	
+		>	// guest:
+		>	// - read allowed
+		>	// - post denied
+		>	// - edit denied
+		>	// member:
+		>	// - read allowed
+		>	// - post allowed
+		>	// - edit denied
+		>	// admin:
+		>	// - read allowed
+		>	// - post allowed
+		>	// - edit allowed
+		>	// my_user: 
+		>	// - read allowed
+		>	// - post allowed
+		>	// - edit denied
+
 */
 class ACL
 {
