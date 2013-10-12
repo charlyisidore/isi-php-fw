@@ -9,7 +9,7 @@
 		Charly Lersteau
 
 	Date:
-		2013-04-06
+		2013-10-12
 
 	Example:
 		>	// http://www.site.com/base/index.php/to/my/page
@@ -277,8 +277,6 @@ class Url
 	*/
 	static public function redirect( $path, $status = null )
 	{
-		// If $path has a host, it is absolute.
-		parse_url( $path, PHP_URL_HOST ) or $path = Url::build( $path );
 		// Status: 301 (Moved Permanently), 302 (Found), 303 (See Other), 307 (Temporary Redirect).
 		headers_sent() or header( "Location: {$path}", true, $status );
 		exit;
