@@ -10,7 +10,7 @@
 		Charly LERSTEAU
 
 	Date:
-		2013-10-13
+		2013-10-14
 */
 
 //	Conversion Atom-RSS
@@ -988,7 +988,7 @@ class Feed extends _FeedEntryBase
 		// string -> SimpleXMLElement
 		if ( !( $content instanceof SimpleXMLElement ) )
 		{
-			$content = simplexml_load_string( $content );
+			$content = new SimpleXMLElement( $content, LIBXML_NOWARNING | LIBXML_NOERROR );
 		}
 
 		// The root tag name says something about the input format
