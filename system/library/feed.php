@@ -10,7 +10,7 @@
 		Charly LERSTEAU
 
 	Date:
-		2013-10-14
+		2013-10-16
 */
 
 //	Conversion Atom-RSS
@@ -861,7 +861,7 @@ class _FeedLink extends _FeedBase
 		if ( $type === 'rss' )
 		{
 			$dom = dom_import_simplexml( $xml );
-			$dom->nodeValue = $this->href();
+			$dom->nodeValue = htmlspecialchars( $this->href() );
 		}
 		else foreach ( self::$_attributes as $name )
 		{

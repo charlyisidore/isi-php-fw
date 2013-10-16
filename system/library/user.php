@@ -9,7 +9,7 @@
 		Charly LERSTEAU
 
 	Date:
-		2013-04-06
+		2013-10-15
 */
 class User
 {
@@ -59,6 +59,19 @@ class User
 	public static function delete( $identifier )
 	{
 		return self::$_provider->delete( $identifier );
+	}
+
+	/**
+		Method: count
+
+		Get the number of users.
+
+		Returns:
+			(int)
+	*/
+	public static function count()
+	{
+		return self::$_provider->count();
 	}
 
 	/**
@@ -245,10 +258,10 @@ class User
 
 		Initialize provider and session variables.
 	*/
-	public static function initialize( $provider = 'JSON' )
+	public static function initialize( $provider = 'JSON', $options = array() )
 	{
-		$provider = $provider.'User';
-		self::$_provider = new $provider;
+		$reflection = new ReflectionClass( $provider.'User' );
+		self::$_provider = $reflection->newInstanceArgs( $options );
 
 		Session::start();
 		$id = Session::get( self::SESSION_ID );
@@ -312,7 +325,7 @@ class UserLoginException extends UserException
 class JSONUser
 {
 	protected static $_file = null;
-	protected $_data;
+	protected $_data = array();
 
 	// Set database file
 	public static function initialize( $file )
@@ -321,12 +334,14 @@ class JSONUser
 	}
 
 	// Constructor
-	public function __construct()
+	public function __construct( $file = null )
 	{
 		$this->_data = new stdclass;
+		isset( $file ) and self::$_file = $file;
+
 		if ( !isset( self::$_file ) )
 		{
-			self::$_file = SYS_PATH.'/data/user.json';
+			self::$_file = SYS_PATH.'/user.json';
 		}
 		if ( file_exists( self::$_file ) )
 		{
@@ -334,10 +349,16 @@ class JSONUser
 		}
 	}
 
+	// Return the number of users.
+	public function count()
+	{
+		return count( (array)$this->_data );
+	}
+
 	// Return all user ID
 	public function all()
 	{
-		return array_keys( $this->_data );
+		return array_keys( (array)$this->_data );
 	}
 
 	// Return user properties

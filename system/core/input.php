@@ -79,7 +79,7 @@ class Input
 		$files = self::_get( $_FILES, strtok( $key, self::$_separator ), $default );
 
 		// Rearrange array to be cleaner.
-		if ( isset( $files['name'][0] ) )
+		if ( is_array( $files['name'] ) )
 		{
 			$r = array();
 			foreach ( $files as $i => $u )

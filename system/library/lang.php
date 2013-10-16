@@ -9,7 +9,7 @@
 		Charly Lersteau
 
 	Date:
-		2012-04-12
+		2013-10-16
 
 	Example:
 		>	// Simple translation
@@ -116,14 +116,22 @@ class Lang
 
 	*/
 	// We choose 'define' instead of 'set' to not be confused with 'current'.
-	static public function define( $lang, $key, $value )
+	static public function define( $lang, $key, $value = null )
 	{
 		isset( $lang ) or $lang = self::current();
-		self::_set(
-			self::$_data,
-			strtok( $lang.'.'.$key, self::$_separator ),
-			$value
-		);
+
+		if ( isset( $value ) )
+		{
+			self::_set(
+				self::$_data,
+				strtok( $lang.self::$_separator.$key, self::$_separator ),
+				$value
+			);
+		}
+		else foreach ( $key as $s => $v )
+		{
+			self::define( $lang, $s, $v );
+		}
 	}
 
 	/**
@@ -139,7 +147,8 @@ class Lang
 	*/
 	static public function current( $name = null )
 	{
-		( self::$_current = setlocale( LC_ALL, $name ) ) or self::$_current = $name;
+		// setlocale() is not safe and not per-thread
+		isset( $name ) and self::$_current = $name;
 		return self::$_current;
 	}
 
