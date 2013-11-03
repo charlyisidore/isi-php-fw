@@ -9,7 +9,7 @@
 		Charly Lersteau
 
 	Date:
-		2013-10-16
+		2013-11-03
 
 	Example:
 		>	// Simple translation
@@ -333,7 +333,11 @@ class Lang
 	*/
 	static public function parseAcceptLanguage( $accept = null )
 	{
-		isset( $accept ) or $accept = $_SERVER[ 'HTTP_ACCEPT_LANGUAGE' ];
+		isset( $accept ) or $accept = (
+			isset( $_SERVER[ 'HTTP_ACCEPT_LANGUAGE' ] )
+			? $_SERVER[ 'HTTP_ACCEPT_LANGUAGE' ]
+			: ''
+		);
 
 		preg_match_all(
 			self::RFC2616_sec14_4,
