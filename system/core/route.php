@@ -66,7 +66,7 @@ class Route
 		{
 			self::notfound( $target );
 		}
-		else if ( is_callable( $target ) )
+		else if ( self::_callable( $target ) )
 		{
 			$this->_path   = $path;
 			$this->_target = $target;
@@ -287,6 +287,15 @@ class Route
 	static protected function _absolute( $path )
 	{
 		return strpos( $path, '/' ) === 0;
+	}
+
+	// Check if a target is callable by Route.
+	static protected function _callable( $target )
+	{
+		return is_callable( $target )
+			or ( is_array( $target )
+				and isset( $target[0] ) and class_exists( $target[0] )
+				and isset( $target[1] ) and method_exists( $target[0], $target[1] ) );
 	}
 }
 
